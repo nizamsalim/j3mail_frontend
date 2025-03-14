@@ -10,8 +10,8 @@ import { useAuth } from "../../Common/AuthContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email: "ni@j3mail.com",
-    password: "nizam123",
+    email: "",
+    password: "",
   });
 
   const [errors, setErrors] = useState({

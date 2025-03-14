@@ -5,14 +5,13 @@ import { encryptAuthBody } from "../../Helpers/Auth/AuthCipher";
 import { API, axios } from "../../Common/Constants";
 import { useAuth } from "../../Common/AuthContext";
 import Loader from "../../Components/Loader";
-import ProtectedTest from "../../Components/ProtectedTest";
 import { checkEmail } from "../../Helpers/Auth/CheckEmail";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    name: "Nizam",
-    email: "ni@j3mail.com",
-    password: "nizam123",
+    name: "",
+    email: "",
+    password: "",
   });
 
   const [errors, setErrors] = useState({
@@ -90,10 +89,12 @@ const Signup = () => {
       if (userExists) {
         setErrors({ ...errors, email: "Email already exists" });
         setIsLoading(false);
+
         return;
       }
     } catch (error) {
       setIsLoading(false);
+      console.log(error);
       return alert("Something went wrong");
     }
 
@@ -101,6 +102,7 @@ const Signup = () => {
       var encryptedFormData = await encryptAuthBody(formData);
     } catch (error) {
       setIsLoading(false);
+      console.log(error);
       return alert("Something went wrong");
     }
     let res;
@@ -111,11 +113,13 @@ const Signup = () => {
       setIsLoading(false);
       if (!res.data.success) {
         console.log(res.data.error);
+        return alert("Something went wrong");
       }
       login(res.data.user);
       navigate("/");
     } catch (error) {
       setIsLoading(false);
+      console.log(error);
       return alert("Something went wrong");
     }
   };
@@ -180,7 +184,6 @@ const Signup = () => {
           Already have an account? <Link to="/auth/login">Login</Link>
         </p>
       </form>
-      <ProtectedTest />
     </div>
   );
 };

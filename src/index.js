@@ -7,6 +7,7 @@ import { ProtectedRoute } from "./Components/Auth/ProtectedRoute";
 import Signup from "./Pages/Auth/SignupPage";
 import Login from "./Pages/Auth/LoginPage";
 import { AuthProvider } from "./Common/AuthContext";
+import Inbox from "./Pages/Mail/Inbox";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -14,8 +15,16 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectedRoute>
-        <App />
+      // <ProtectedRoute>
+      <App />
+      // </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/mail/inbox",
+    element: (
+      <ProtectedRoute redirect={"/mail/inbox"}>
+        <Inbox />
       </ProtectedRoute>
     ),
   },

@@ -1,13 +1,13 @@
 import AXIOS from "axios";
-const URI = "http://localhost:5000";
+const URI = "http://localhost:8000";
 
 export const API = {
   auth: {
-    getServerPublicKey: `/auth/key`,
-    signup: `/auth/signup`,
-    login: `/auth/login`,
-    logout: "/auth/logout",
-    checkEmailAvailability: "/auth/emailcheck",
+    getServerPublicKey: `/auth/public_key/`,
+    signup: `/auth/signup/`,
+    login: `/auth/login/`,
+    logout: "/auth/logout/",
+    checkEmailAvailability: "/auth/email_check/",
   },
 };
 
