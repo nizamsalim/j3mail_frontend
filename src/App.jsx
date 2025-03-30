@@ -30,7 +30,7 @@ function App() {
               <div>
                 <button
                   onClick={() => {
-                    nav("/mail/inbox");
+                    nav("/mail/");
                   }}
                 >
                   Inbox
@@ -77,9 +77,15 @@ function App() {
             experience accessible across multiple devices.{" "}
           </p>
           <div className="hero-buttons">
-            <button className="cta-btn" onClick={(e) => nav("/auth/signup")}>
-              Get Started
-            </button>
+            {user ? (
+              <button className="cta-btn" onClick={(e) => nav("/mail")}>
+                Check My Mails
+              </button>
+            ) : (
+              <button className="cta-btn" onClick={(e) => nav("/auth/signup")}>
+                Get Started
+              </button>
+            )}
           </div>
         </header>
 

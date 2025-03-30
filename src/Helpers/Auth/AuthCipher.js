@@ -1,19 +1,5 @@
-import { API, axios } from "../../Common/Constants";
 import crypto from "node-forge";
-
-const getServerPublicKey = () => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const res = await axios.get(API.auth.getServerPublicKey);
-      if (!res.data.success) {
-        reject(res.data.error);
-      }
-      resolve(res.data.public_key);
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
+import { getServerPublicKey } from "../Key/KeyHandler";
 
 export const encryptAuthBody = (data) => {
   return new Promise(async (resolve, reject) => {
@@ -29,3 +15,9 @@ export const encryptAuthBody = (data) => {
     }
   });
 };
+
+// export const test = () => {
+//   const password = "nizamsalim123";
+//   const res = generateClientRSAKeyPair(password);
+//   console.log(res);
+// };

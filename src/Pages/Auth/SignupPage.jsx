@@ -6,6 +6,7 @@ import { API, axios } from "../../Common/Constants";
 import { useAuth } from "../../Common/AuthContext";
 import Loader from "../../Components/Loader";
 import { checkEmail } from "../../Helpers/Auth/CheckEmail";
+import { generateClientRSAKeyPair } from "../../Helpers/Key/KeyHandler";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -110,12 +111,22 @@ const Signup = () => {
       res = await axios.post(API.auth.signup, {
         data: encryptedFormData,
       });
-      setIsLoading(false);
       if (!res.data.success) {
+        setIsLoading(false);
         console.log(res.data.error);
         return alert("Something went wrong");
       }
-      login(res.data.user);
+      const user = res.data.user;
+      const keyPair = generateClientRSAKeyPair(formData.password); // {publicKey,E(privateKey)}
+
+      res = await axios.post(API.key.setClientKeyPair, keyPair);
+      if (!res.data.success) {
+        setIsLoading(false);
+        console.log(res.data.error);
+        return alert("RSA pvt key");
+      }
+      setIsLoading(false);
+      login(user);
       navigate("/");
     } catch (error) {
       setIsLoading(false);

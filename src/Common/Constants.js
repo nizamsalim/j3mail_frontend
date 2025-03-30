@@ -3,11 +3,22 @@ const URI = "http://localhost:8000";
 
 export const API = {
   auth: {
-    getServerPublicKey: `/auth/public_key/`,
     signup: `/auth/signup/`,
     login: `/auth/login/`,
     logout: "/auth/logout/",
     checkEmailAvailability: "/auth/email_check/",
+  },
+  key: {
+    getServerPublicKey: `/auth/public_key/`, // get
+    getRecieverPublicKey: "/auth/public_key/", //post
+    getClientPrivateKey: "/auth/private_key/", // get
+    setClientKeyPair: "/auth/private_key/", // post
+  },
+  mail: {
+    sendMail: "/mail/send/",
+    getInbox: "/mail/list/?list=inbox",
+    getOutBox: "/mail/list/?list=outbox",
+    readMail: "/mail/read/?id=",
   },
 };
 

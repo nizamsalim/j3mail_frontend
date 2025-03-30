@@ -8,6 +8,9 @@ import Signup from "./Pages/Auth/SignupPage";
 import Login from "./Pages/Auth/LoginPage";
 import { AuthProvider } from "./Common/AuthContext";
 import Inbox from "./Pages/Mail/Inbox";
+import MailItem from "./Pages/Mail/MailItem";
+import ComposeMail from "./Pages/Mail/ComposeMail";
+import { MailListProvider } from "./Common/MailListContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -21,12 +24,32 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/mail/inbox",
+    path: "/mail",
     element: (
-      <ProtectedRoute redirect={"/mail/inbox"}>
-        <Inbox />
+      <ProtectedRoute>
+        <MailListProvider>
+          <Inbox />
+        </MailListProvider>
       </ProtectedRoute>
     ),
+    children: [
+      {
+        path: "/mail/read/:mailId",
+        element: (
+          <ProtectedRoute>
+            <MailItem />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/mail/compose",
+        element: (
+          <ProtectedRoute>
+            <ComposeMail />
+          </ProtectedRoute>
+        ),
+      },
+    ],
   },
   {
     path: "/auth",
