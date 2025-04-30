@@ -38,10 +38,10 @@ export const getClientPrivateKey = () => {
   });
 };
 
-export const getRecieverPublicKey = (email) => {
+export const getPublicKey = (email) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const res = await axios.post(API.key.getRecieverPublicKey, { email });
+      const res = await axios.post(API.key.getPublicKey, { email });
       if (!res.data.success) {
         reject();
       }

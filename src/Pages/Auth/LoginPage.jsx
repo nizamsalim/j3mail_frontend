@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./LoginPage.css";
 import { Link, useNavigate } from "react-router-dom";
-// eslint-disable-next-line no-unused-vars
 import { API, axios } from "../../Common/Constants";
 import { checkEmail } from "../../Helpers/Auth/CheckEmail";
 import Loader from "../../Components/Loader";

@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import "./Inbox.css";
-// eslint-disable-next-line no-unused-vars
-import FileUploadButton from "./FileUploadButton";
 import { checkEmail } from "../../Helpers/Auth/CheckEmail";
 import { encryptMail } from "../../Helpers/Mail/MailCipher";
 import Loader from "../../Components/Loader";

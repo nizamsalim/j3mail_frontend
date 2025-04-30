@@ -10,7 +10,7 @@ export const API = {
   },
   key: {
     getServerPublicKey: `/auth/public_key/`, // get
-    getRecieverPublicKey: "/auth/public_key/", //post
+    getPublicKey: "/auth/public_key/", //post
     getClientPrivateKey: "/auth/private_key/", // get
     setClientKeyPair: "/auth/private_key/", // post
   },

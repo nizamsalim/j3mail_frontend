@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-vars */
 import crypto from "node-forge";
-import { Buffer } from "buffer";
-import { getClientPrivateKey, getRecieverPublicKey } from "../Key/KeyHandler";
+import { getClientPrivateKey, getPublicKey } from "../Key/KeyHandler";
 
 const encryptText = (text, aesKey, iv) => {
   const cipher = crypto.cipher.createCipher("AES-GCM", aesKey);
@@ -13,16 +11,6 @@ const encryptText = (text, aesKey, iv) => {
   // console.log("length: " + crypto.util.encode64(tag).length);
   const encryptedHex = crypto.util.encode64(output) + crypto.util.encode64(tag);
   return encryptedHex;
-};
-
-export const test = (mail) => {
-  const { to, body, subject } = mail;
-  const aesKey = crypto.random.getBytes(32);
-  const iv = crypto.random.getBytes(12);
-  const encryptedHex = encryptText(subject, aesKey, iv);
-  console.log({ encryptedHex });
-  const decrypted = decryptText(encryptedHex, aesKey, iv);
-  console.log({ decrypted });
 };
 
 const decryptText = (text, aesKey, iv) => {
@@ -67,15 +55,18 @@ export const encryptMail = async (mail, attachment) => {
     delete encryptedMail.ea;
   }
 
-  const recPublicKeyPem = await getRecieverPublicKey(to);
+  const recPublicKeyPem = await getPublicKey(to);
   const recPublicKey = crypto.pki.publicKeyFromPem(recPublicKeyPem);
   const encryptedAESKey = recPublicKey.encrypt(aesKey, "RSA-OAEP");
+
+  const mailSignature = await signMail(subject + body);
 
   return {
     mail: encryptedMail,
     session: {
       key: crypto.util.encode64(encryptedAESKey),
       iv: crypto.util.encode64(iv),
+      signature: mailSignature,
     },
   };
 };
@@ -92,16 +83,37 @@ export const decryptMail = async (data) => {
 
   const decryptedSubject = decryptText(mail.es, aesKeyBytes, ivBytes);
   const decryptedBody = decryptText(mail.eb, aesKeyBytes, ivBytes);
+
+  const verified = await verifyMail(
+    decryptedSubject + decryptedBody,
+    session.signature,
+    mail.from
+  );
+
   return {
+    verified,
     subject: decryptedSubject,
     body: decryptedBody,
   };
 };
 
-export const signMail = (encryptedMail)=>{
+export const signMail = async (data) => {
+  const privateKeyPem = await getClientPrivateKey();
+  const digest = crypto.md.sha256.create();
+  digest.update(data, "utf8");
+  const privateKey = crypto.pki.privateKeyFromPem(privateKeyPem);
+  const signature = privateKey.sign(digest);
+  return crypto.util.encode64(signature);
+};
 
-}
-
-export const verifyMail = (data)=>{
-
-}
+export const verifyMail = async (data, signature, from) => {
+  const publicKeyPem = await getPublicKey(from);
+  const digest = crypto.md.sha256.create();
+  digest.update(data, "utf8");
+  const publicKey = crypto.pki.publicKeyFromPem(publicKeyPem);
+  const verified = publicKey.verify(
+    digest.digest().bytes(),
+    crypto.util.decode64(signature)
+  );
+  return verified;
+};

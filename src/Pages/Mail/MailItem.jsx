@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
+
 import React, { useEffect, useState } from "react";
 import "./Inbox.css";
 import { useNavigate, useParams } from "react-router-dom";
@@ -8,8 +8,6 @@ import { useMailList } from "../../Common/MailListContext";
 import { decryptMail } from "../../Helpers/Mail/MailCipher";
 import Loader from "../../Components/Loader";
 import { useAuth } from "../../Common/AuthContext";
-
-const body = {};
 
 const MailItem = () => {
   const { mailId } = useParams();
@@ -23,6 +21,7 @@ const MailItem = () => {
         console.log(res.data.error);
         return alert("Something went wrong");
       }
+      console.log(res.data.mail);
       setMail(res.data.mail);
       setList(list);
     });
@@ -62,6 +61,7 @@ const MailItem = () => {
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
   const [isDecrypted, setIsDecrypted] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
 
   const [mail, setMail] = useState({
     mail: {
@@ -76,6 +76,7 @@ const MailItem = () => {
   const handleDecrypt = async () => {
     setIsLoading(true);
     const decryptedMail = await decryptMail(mail);
+    setIsVerified(decryptedMail.verified);
     setSubject(decryptedMail.subject);
     setBody(decryptedMail.body);
     setIsLoading(false);
@@ -83,15 +84,27 @@ const MailItem = () => {
   };
   return (
     <div className="email-details">
-      <h3 className="text">{isDecrypted ? subject : mail.mail.es}</h3>
+      <h3 className="text">
+        {isDecrypted && isVerified ? subject : mail.mail.es}
+      </h3>
       <p className="text">
         <strong>{list === "inbox" ? "From: " : "To: "}</strong>
         {list === "inbox" ? mail.mail.from : mail.mail.to}
       </p>
-      {isDecrypted && (
-        <p style={{ color: "darkgreen" }}>Email signature verified</p>
-      )}
-      <div className="email-body text">{isDecrypted ? body : mail.mail.eb}</div>
+      {isDecrypted &&
+        (isVerified ? (
+          <p style={{ color: "darkgreen", marginTop: "20px" }}>
+            <strong> Email signature verified </strong>
+          </p>
+        ) : (
+          <p style={{ color: "red", marginTop: "20px" }}>
+            <strong> Email signature not verified. Message is tampered </strong>
+          </p>
+        ))}
+
+      <div className="email-body text">
+        {isDecrypted && isVerified ? body : mail.mail.eb}
+      </div>
       {user.email === mail.mail.to && (
         <div style={{ display: "flex", justifyContent: "end" }}>
           <button
@@ -111,5 +124,4 @@ const MailItem = () => {
     </div>
   );
 };
-
 export default MailItem;

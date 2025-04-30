@@ -15,9 +15,3 @@ export const encryptAuthBody = (data) => {
     }
   });
 };
-
-// export const test = () => {
-//   const password = "nizamsalim123";
-//   const res = generateClientRSAKeyPair(password);
-//   console.log(res);
-// };
