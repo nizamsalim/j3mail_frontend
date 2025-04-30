@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# 📬 J3Mail Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**J3Mail** is a secure, end-to-end encrypted email client built with React and TypeScript. It utilizes RSA for authentication and key exchange, AES for message encryption, and digital signatures for message integrity.
 
-## Available Scripts
+## Application Link
 
-In the project directory, you can run:
+[J3Mail]()
 
-### `npm start`
+## 🔗 Backend Repository
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+To run the application locally, you'll need to clone and set up the backend server:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+👉 [https://github.com/nizamsalim/j3mail_backend](https://github.com/nizamsalim/j3mail_backend)
 
-### `npm test`
+## 🚀 Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Secure Authentication**: Client-server RSA key exchange for secure user authentication.
+- **End-to-End Encryption**: AES encryption for email content, ensuring privacy.
+- **Digital Signatures**: Ensures message integrity and authenticity.
+- **User-Friendly Interface**: Intuitive React-based UI for seamless user experience.
 
-### `npm run build`
+## 🛠️ Prerequisites
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Ensure you have the following installed on your machine:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Node.js** (v14 or higher)
+- **npm** (v6 or higher)
+- **Python** (3.8 or higher)
+- **Git**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 📦 Installation & Setup
 
-### `npm run eject`
+### 1. Clone the Repositories
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+git clone https://github.com/nizamsalim/j3mail_backend.git
+git clone https://github.com/nizamsalim/j3mail_frontend.git
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 2. Setup Backend
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+cd j3mail_backend
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py runserver
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The backend server will be running http://localhost:8000
 
-## Learn More
+### 3. Setup Frontend
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+cd ..\j3mail_frontend
+npm install
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The frontend will be running at http://localhost:3000
 
-### Code Splitting
+Ensure that you set `REACT_APP_SECRET_PASSWORD` in the .env file. It should be a strong and random password
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 📄 License
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is licensed under the [MIT License](https://opensource.org/license/mit)
