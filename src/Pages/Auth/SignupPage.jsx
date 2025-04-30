@@ -8,6 +8,7 @@ import Loader from "../../Components/Loader";
 import { checkEmail } from "../../Helpers/Auth/CheckEmail";
 import { generateClientRSAKeyPair } from "../../Helpers/Key/KeyHandler";
 
+
 const Signup = () => {
   const [formData, setFormData] = useState({
     name: "",

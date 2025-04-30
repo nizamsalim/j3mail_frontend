@@ -7,9 +7,13 @@ import { API, axios } from "../../Common/Constants";
 import { useMailList } from "../../Common/MailListContext";
 import { decryptMail } from "../../Helpers/Mail/MailCipher";
 import Loader from "../../Components/Loader";
+import { useAuth } from "../../Common/AuthContext";
+
+const body = {};
 
 const MailItem = () => {
   const { mailId } = useParams();
+  const { user } = useAuth();
   const { list, setList, setPlaceholder } = useMailList();
   const [isLoading, setIsLoading] = useState(false);
   const nav = useNavigate();
@@ -84,21 +88,26 @@ const MailItem = () => {
         <strong>{list === "inbox" ? "From: " : "To: "}</strong>
         {list === "inbox" ? mail.mail.from : mail.mail.to}
       </p>
+      {isDecrypted && (
+        <p style={{ color: "darkgreen" }}>Email signature verified</p>
+      )}
       <div className="email-body text">{isDecrypted ? body : mail.mail.eb}</div>
-      <div style={{ display: "flex", justifyContent: "end" }}>
-        <button
-          className="attach-btn"
-          style={{
-            marginTop: "20px",
-            padding: "5px",
-            backgroundColor: `${isDecrypted ? "grey" : "green"}`,
-          }}
-          onClick={handleDecrypt}
-          disabled={isDecrypted}
-        >
-          {isLoading ? <Loader isLoading={isLoading} /> : "Decrypt"}
-        </button>
-      </div>
+      {user.email === mail.mail.to && (
+        <div style={{ display: "flex", justifyContent: "end" }}>
+          <button
+            className="attach-btn"
+            style={{
+              marginTop: "20px",
+              padding: "5px",
+              backgroundColor: `${isDecrypted ? "grey" : "green"}`,
+            }}
+            onClick={handleDecrypt}
+            disabled={list === "inbox" && isDecrypted}
+          >
+            {isLoading ? <Loader isLoading={isLoading} /> : "Decrypt"}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

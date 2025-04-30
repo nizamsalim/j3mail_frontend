@@ -97,3 +97,11 @@ export const decryptMail = async (data) => {
     body: decryptedBody,
   };
 };
+
+export const signMail = (encryptedMail)=>{
+
+}
+
+export const verifyMail = (data)=>{
+
+}

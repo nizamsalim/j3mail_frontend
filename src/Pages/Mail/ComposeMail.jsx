@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Inbox.css";
+// eslint-disable-next-line no-unused-vars
 import FileUploadButton from "./FileUploadButton";
 import { checkEmail } from "../../Helpers/Auth/CheckEmail";
 import { encryptMail } from "../../Helpers/Mail/MailCipher";
@@ -15,7 +16,7 @@ const ComposeMail = () => {
     body: "",
   });
   const [emailError, setEmailError] = useState(false);
-  const [attachment, setAttachment] = useState(null);
+  // const [attachment, setAttachment] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const nav = useNavigate();
@@ -49,7 +50,7 @@ const ComposeMail = () => {
         setEmailError(`Email ${composeData.to} does not exist`);
         return;
       }
-      const encryptedMail = await encryptMail(composeData, attachment);
+      const encryptedMail = await encryptMail(composeData);
 
       const res = await axios.post(API.mail.sendMail, encryptedMail);
       setIsLoading(false);
@@ -97,10 +98,12 @@ const ComposeMail = () => {
           required
           rows={50}
         />
-        <FileUploadButton
+        {/**
+          <FileUploadButton
           attachment={attachment}
           setAttachment={setAttachment}
-        />
+          />
+          */}
         <button
           onClick={handleSendMail}
           className="send-btn"
