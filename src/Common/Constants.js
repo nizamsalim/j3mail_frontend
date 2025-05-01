@@ -1,5 +1,5 @@
 import AXIOS from "axios";
-const URI = "http://localhost:8000";
+const URI = "https://j3mail-backend.onrender.com";
 
 export const API = {
   auth: {
